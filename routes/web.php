@@ -19,3 +19,7 @@ Route::get('/products/{id}', 'ProductsController@show')->name('products.show');
 
 /* Cart Routes */
 Route::post('/cart/add','CartController@store')->name('cart.store');
+Route::get('/emptyCart', function(){
+    Cart::destroy();
+    return redirect()->route('products.index');
+});

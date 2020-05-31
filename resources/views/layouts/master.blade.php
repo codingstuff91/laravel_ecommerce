@@ -84,6 +84,12 @@
     </div>
   @endif
 
+  @if (session('duplicate'))
+    <div class="alert alert-danger">
+      {{ session('duplicate') }}
+    </div>
+  @endif
+
   @yield('content')
 
 </main><!-- /.container -->
