@@ -24,3 +24,4 @@ Route::get('/emptyCart', function(){
     return redirect()->route('products.index');
 });
 Route::get('/cart', 'CartController@index')->name('cart.index');
+Route::delete('/cart/{rowId}', 'CartController@destroy')->name('cart.destroy');

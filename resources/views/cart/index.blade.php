@@ -42,10 +42,15 @@
                           </div>
                         </div>
                       </th>
-                      <td class="align-middle"><strong>{{ $product->model->getPrice() }}</strong></td>
-                      <td class="align-middle"><strong>1</strong></td>
-                      <td class="align-middle"><a href="#" class="text-danger"><i class="fa fa-trash"></i></a>
-                      </td>
+                        <td class="align-middle"><strong>{{ $product->model->getPrice() }}</strong></td>
+                        <td class="align-middle"><strong>1</strong></td>
+                        <td class="align-middle">
+                            <form action="{{ route('cart.destroy',$product->rowId) }}" method="POST">
+                                @csrf
+                                @method('delete')
+                                <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                            </form>
+                        </td>
                     </tr>                   
                   @endforeach
   
@@ -76,10 +81,8 @@
     </div>
   </div>
 @else
-    <div class="container">
-        <div class="col-xs-12 alert alert-warning">
-            <p class="text-center">Votre panier est vide</p>
-        </div>
+    <div class="col-xs-12 alert alert-warning">
+        <p class="text-center">Votre panier est vide</p>
     </div>
 @endif
 

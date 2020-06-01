@@ -30,5 +30,12 @@ class CartController extends Controller
         return redirect()->route('products.index')->with('success','Le produit a bien été ajouté');
     }
 
+    public function destroy($rowId)
+    {
+        Cart::remove($rowId);
+
+        return back()->with('success','Le produit a bien été supprimé');
+    }
+
 
 }
