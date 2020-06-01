@@ -8,6 +8,11 @@ use Gloudemans\Shoppingcart\Facades\Cart;
 
 class CartController extends Controller
 {
+    public function index()
+    {
+        return view('cart.index');
+    }
+
     public function store(Request $request)
     {
         //Search for duplicates references
@@ -24,4 +29,6 @@ class CartController extends Controller
 
         return redirect()->route('products.index')->with('success','Le produit a bien été ajouté');
     }
+
+
 }

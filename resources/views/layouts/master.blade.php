@@ -23,6 +23,8 @@
     <meta name="msapplication-config" content="/docs/4.5/assets/img/favicons/browserconfig.xml">
     <meta name="theme-color" content="#563d7c">
 
+    {{-- Font Awesome --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
 
     <style>
       .bd-placeholder-img {
@@ -50,10 +52,10 @@
   <header class="blog-header py-3">
     <div class="row flex-nowrap justify-content-between align-items-center">
       <div class="col-4 pt-1">
-        <a class="text-muted" href="#">Panier <span class="badge badge-pill badge-success">{{ Cart::count() }}</span></a>
+        <a class="text-muted" href="{{ route('cart.index') }}">Panier <span class="badge badge-pill badge-success">{{ Cart::count() }}</span></a>
       </div>
       <div class="col-4 text-center">
-        <a class="blog-header-logo text-dark" href="#">E-COMMERCE</a>
+        <a class="blog-header-logo text-dark" href="{{ route('products.index') }}">E-COMMERCE</a>
       </div>
       <div class="col-4 d-flex justify-content-end align-items-center">
         <a class="text-muted" href="#" aria-label="Search">
