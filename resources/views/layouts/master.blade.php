@@ -23,6 +23,8 @@
     <meta name="msapplication-config" content="/docs/4.5/assets/img/favicons/browserconfig.xml">
     <meta name="theme-color" content="#563d7c">
 
+    @yield('extra_head_scripts')
+
     {{-- Font Awesome --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
 
@@ -44,8 +46,6 @@
     </style>
     <!-- Custom styles for this template -->
     <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
-    <!-- Custom styles for this template -->
-    <link href="blog.css" rel="stylesheet">
   </head>
   <body>
     <div class="container">
@@ -102,5 +102,6 @@
     <a href="#">Back to top</a>
   </p>
 </footer>
+  @yield('extra_body_scripts')
 </body>
 </html>
