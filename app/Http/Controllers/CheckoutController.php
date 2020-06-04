@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Order;
 use Stripe\Stripe;
 use Stripe\PaymentIntent;
 use Illuminate\Support\Arr;
@@ -55,9 +56,34 @@ class CheckoutController extends Controller
      */
     public function store(Request $request)
     {
-        Cart::destroy();
         $data = $request->json()->all();
-        return $data["paymentIntent"];
+        
+        $products = [];
+        $i = 0;
+        
+        
+        foreach(Cart::content() as $product)
+        {
+            $products['product_'. $i][] = $product->model->title;
+            $products['product_'. $i][] = $product->model->price;
+            $products['product_'. $i][] = $product->qty;
+            
+            $i++;
+        }
+        
+        $order = Order::create([
+            "payment_intent_id" => $data['paymentIntent']['id'],
+            "amount" => $data['paymentIntent']['amount'],
+            "products" => serialize($products),
+            "user_id" => 1
+            ]);
+            
+            if ($data['paymentIntent']['status'] === 'succeeded') {
+                Cart::destroy();
+                return response()->json(["success" => "Payment intent succeeded !"]);
+        } else {
+            return response()->json(["error" => "PaymentIntent Failed !"]);
+        }
     }
 
     /**
