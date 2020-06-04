@@ -4,26 +4,30 @@
     <script src="https://js.stripe.com/v3/"></script> 
 @endsection
 
+@section('meta_csrf')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+@endsection
+
 @section('content')
-
-<div class="col-md-12">
-    <h1 class="text-center">Paiment de votre commande</h1>
-</div>
-<div class="row mt-4">
-    <div class="col-md-6">
-        <form id="payment-form">
-            <div id="card-element">
-                <!-- Elements will create input elements here -->
-            </div>
-            
-            <!-- We'll put the error messages in this element -->
-            <div id="card-errors" role="alert"></div>
-            
-            <button id="submit" class="btn btn-success btn-block mt-4">Valider le paiement</button>
-        </form>
+    <div class="col-md-12">
+        <h1 class="text-center">Paiment de votre commande</h1>
     </div>
-</div>
-
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <form id="payment-form" action="{{ route('checkout.store') }}" method="POST">
+                @csrf
+                
+                <!-- Elements will create input elements here -->
+                <div id="card-element">
+                </div>
+                
+                <!-- We'll put the error messages in this element -->
+                <div id="card-errors" role="alert"></div>
+                
+                <button id="submit" class="btn btn-success btn-block mt-4">Valider le paiement de {{ getPrice(Cart::total()) }}</button>
+            </form>
+        </div>
+    </div>
 @endsection
 
 @section('extra_body_scripts')
@@ -63,27 +67,53 @@
 
         // Submission of the payment to stripe
         var form = document.getElementById('payment-form');
+        const submitButton = document.querySelector("#submit");
 
         form.addEventListener('submit', function(ev) {
             ev.preventDefault();
+            submitButton.disabled = true;
             stripe.confirmCardPayment("{{ $client_secret }}", {
                     payment_method: {
                     card: card
                 }
             }).then(function(result) {
                 if (result.error) {
-                // Show error to your customer (e.g., insufficient funds)
-                console.log(result.error.message);
+                    // Show error to your customer (e.g., insufficient funds)
+                    submitButton.disabled = false;
+                    console.log(result.error.message);
                 } else {
-                // The payment has been processed!
-                if (result.paymentIntent.status === 'succeeded') {
-                    console.log(result.paymentIntent);                    
-                    // Show a success message to your customer
-                    // There's a risk of the customer closing the window before callback
-                    // execution. Set up a webhook or plugin to listen for the
-                    // payment_intent.succeeded event that handles any business critical
-                    // post-payment actions.
-                }
+                    // The payment has been processed!
+                    if (result.paymentIntent.status === 'succeeded') {
+                        console.log(result.paymentIntent);                    
+                        
+                        var paymentIntent = result.paymentIntent;
+                        var form = document.getElementById("payment-form");
+                        var token = document.querySelector("meta[name='csrf-token']").getAttribute('content');
+                        var url = form.action;
+                        var redirect = "/thanks";
+                        
+                        // Request to store generic informations in DB
+                        fetch(
+                            url,
+                            {
+                                headers : {
+                                    "Content-Type": "application/json",
+                                    "Accept" : "application/json, text-plain, */*",
+                                    "X-Request-With" : "SMLHttpRequest",
+                                    "X-CSRF-TOKEN" : token
+                                },
+                                method : "post",
+                                body : JSON.stringify({
+                                    paymentIntent : paymentIntent
+                                })
+                            
+                            }).then((response)=>{
+                                window.location.href = redirect;
+                        }).catch((error)=>{
+                            console.log(error);                            
+                        });
+
+                    }
                 }
             });
         });
