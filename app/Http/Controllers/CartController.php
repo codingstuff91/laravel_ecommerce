@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use Gloudemans\Shoppingcart\Facades\Cart;
 
 class CartController extends Controller
@@ -35,6 +36,15 @@ class CartController extends Controller
         Cart::remove($rowId);
 
         return back()->with('success','Le produit a bien été supprimé');
+    }
+
+    public function update(Request $request)
+    {
+        Cart::update($request['rowId'], $request->new_qty);
+
+        Session::flash('success','La quantité à été mise à jour');
+
+        return response()->json(["success", "Quantité mise à jour"]);
     }
 
 

@@ -14,6 +14,7 @@ Route::get('/emptyCart', function(){
 });
 Route::get('/cart', 'CartController@index')->name('cart.index');
 Route::delete('/cart/{rowId}', 'CartController@destroy')->name('cart.destroy');
+Route::patch('/cart/{rowId}', 'CartController@update')->name('cart.update');
 
 /* Checkout Routes */
 Route::get('/checkout','CheckoutController@index')->name('checkout.index');

@@ -1,5 +1,13 @@
 @extends('layouts.master')
 
+@section('extra_head_scripts')
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+@endsection
+
+@section('meta_csrf')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+@endsection
+
 @section('content')
 
 <h1 class="text-center">Votre panier</h1>
@@ -8,7 +16,7 @@
 <div class="px-4 px-lg-0">
     <div class="pb-5">
       <div class="container">
-        <div class="row">
+		  <div class="row">
           <div class="col-lg-12 p-5 bg-white rounded shadow-sm mb-5">
   
             <!-- Shopping cart table -->
@@ -43,7 +51,9 @@
                         </div>
                       </th>
                         <td class="align-middle"><strong>{{ $product->model->getPrice() }}</strong></td>
-                        <td class="align-middle"><strong>1</strong></td>
+                        <td class="align-middle">
+                          <input type="number" data-id="{{ $product->rowId }}" value="{{ $product->qty }}" class="form-control product-quantity">
+                        </td>
                         <td class="align-middle">
                             <form action="{{ route('cart.destroy',$product->rowId) }}" method="POST">
                                 @csrf
@@ -87,6 +97,31 @@
     </div>
 @endif
 
+@endsection
 
-    
+@section('extra_body_scripts')
+
+<script>
+  var token = document.querySelector("meta[name='csrf-token']").getAttribute('content');
+  var product_quantity = document.querySelectorAll('.product-quantity')
+
+  // On transforme la liste de nos inputs en Array et ensuite on écoute un evenement change dès qu'une quantité est modifiée
+  Array.from(product_quantity).forEach((element) => {
+
+    element.addEventListener('change', function(){
+		var rowId = this.getAttribute('data-id')
+		console.log('quantite recupérée ', this.value);
+
+		axios.patch('/cart/' + rowId, {
+			new_qty : this.value,
+			token
+		}).then((response)=>{
+			location.reload()
+		})
+    })
+  })
+
+
+</script>   
+
 @endsection
