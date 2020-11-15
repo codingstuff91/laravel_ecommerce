@@ -23,7 +23,7 @@ class CategoriesTableSeeder extends Seeder
         ]);
 
         Category::create([
-            'name' => 'Vin rosé',
+            'name' => 'Vin Rosé',
             'slug' => 'vin-rosé'
         ]);
 
