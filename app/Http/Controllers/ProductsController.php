@@ -8,9 +8,17 @@ use Gloudemans\Shoppingcart\Facades\Cart;
 
 class ProductsController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::all();
+        if($request->category)
+        {
+            $products = Product::with('categories')->whereHas('categories', function($query) use ($request) {
+                $query->where('slug', $request->category);
+            })->paginate(6);
+        }else{
+            
+            $products = Product::with('categories')->paginate(6);
+        }
         return view('products.index', compact('products'));
     }
 

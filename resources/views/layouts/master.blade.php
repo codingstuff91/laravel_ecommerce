@@ -71,13 +71,9 @@
 
   <div class="nav-scroller py-1 mb-2">
     <nav class="nav d-flex justify-content-between">
-      <a class="p-2 text-muted" href="#">Electroménager</a>
-      <a class="p-2 text-muted" href="#">Automobile</a>
-      <a class="p-2 text-muted" href="#">Vétements</a>
-      <a class="p-2 text-muted" href="#">Emplois</a>
-      <a class="p-2 text-muted" href="#">Immobilier</a>
-      <a class="p-2 text-muted" href="#">Informatique</a>
-      <a class="p-2 text-muted" href="#">Livres</a>
+      @foreach (App\Category::all() as $category)
+        <a class="p-2 text-muted" href="{{ route('products.index', ['category' => $category->slug ]) }}">{{ $category->name }}</a>  
+      @endforeach
     </nav>
   </div>
 </div>
