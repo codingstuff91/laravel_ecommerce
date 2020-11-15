@@ -7,6 +7,11 @@
         <div class="col-md-6">
             <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
             <div class="col p-4 d-flex flex-column position-static">
+                <small class="d-inline-block mb-2">
+                    @foreach ($product->categories as $category)
+                       <span class="badge badge-danger py-2">{{ $category->name }}</span>
+                    @endforeach
+                </small>
                 <h3 class="mb-0">{{ $product->title }}</h3>
                 <p>{{ $product->created_at->format('d/m/Y') }}</p>
                 <strong>{{ $product->getPrice() }}</strong>
