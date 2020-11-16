@@ -22,3 +22,7 @@ Route::post('/checkout','CheckoutController@store')->name('checkout.store');
 Route::get('/thanks', function(){
     return view('checkout.thanks');
 });
+
+Route::group(['prefix' => 'admin'], function () {
+    Voyager::routes();
+});
