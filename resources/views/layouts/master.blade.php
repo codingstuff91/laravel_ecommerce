@@ -60,11 +60,7 @@
         <a class="blog-header-logo text-dark" href="{{ route('products.index') }}">E-COMMERCE</a>
       </div>
       <div class="col-4 d-flex justify-content-end align-items-center">
-        <a class="text-muted" href="#" aria-label="Search">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="mx-3" role="img" viewBox="0 0 24 24" focusable="false"><title>Search</title><circle cx="10.5" cy="10.5" r="7.5"/><path d="M21 21l-5.2-5.2"/></svg>
-        </a>
-        <a class="btn btn-sm btn-outline-success" href="#">Inscription</a>
-        <a class="btn btn-sm btn-outline-info mr-2" href="#">Connexion</a>
+        @include('partials.search')
       </div>
     </div>
   </header>
@@ -87,6 +83,12 @@
   @if (session('duplicate'))
     <div class="alert alert-danger">
       {{ session('duplicate') }}
+    </div>
+  @endif
+
+  @if (request()->input('query'))
+  <div class='alert alert-{{ $products->count() > 0 ? 'success' : 'danger' }}'>
+      {{ $products->count() }} résultat{{ $products->count() > 1 ? 's' : ''}} trouvé{{ $products->count() > 1 ? 's' : ''}} la recherche "{{ request()->input('query') }}"
     </div>
   @endif
 

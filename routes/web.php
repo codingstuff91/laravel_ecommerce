@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 // Products Routes
 Route::get('/', 'ProductsController@index')->name('products.index');
 Route::get('/products/{id}', 'ProductsController@show')->name('products.show');
+Route::get('/search', 'ProductsController@search')->name('products.search');
 
 /* Cart Routes */
 Route::post('/cart/add','CartController@store')->name('cart.store');

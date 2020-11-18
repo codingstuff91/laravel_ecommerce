@@ -9,7 +9,7 @@
             <div class="col p-4 d-flex flex-column position-static">
                 <small class="d-inline-block mb-2">
                     @foreach ($product->categories as $category)
-                       <span class="badge badge-danger py-2">{{ $category->name }}</span>
+                    <span class="badge badge-danger py-2">{{ $category->name }}</span>
                     @endforeach
                 </small>
                 <h3 class="mb-0">{{ $product->title }}</h3>
@@ -23,8 +23,6 @@
             </div>
         </div>        
     @endforeach
-    {{ $products->appends(request()->input())->links() }}
 </div>
-
     
 @endsection

@@ -27,4 +27,13 @@ class ProductsController extends Controller
         $product = Product::find($id);
         return view('products.show', compact('product'));
     }
+
+    public function search(Request $request)
+    {
+        $products = Product::where('title','like',"%" . $request['query'] . "%")
+                            ->orWhere('description', "%" . $request['query'] . "%")
+                            ->get();
+
+        return view('products.search')->with('products',$products);
+    }
 }

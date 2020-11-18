@@ -10,7 +10,7 @@
         <h2 class="mt-2">{{ $product->description }}</h2>
     </div>
     <div class="col-4">
-        <img src="{{ $product->image }}" alt="">
+        <img src="{{ asset('storage/'. $product->image) }}" alt="">
     </div>
     <p>{{ $product->getPrice() }}</p>
 </div>
