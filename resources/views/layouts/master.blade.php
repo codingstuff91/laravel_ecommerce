@@ -23,6 +23,9 @@
     <meta name="msapplication-config" content="/docs/4.5/assets/img/favicons/browserconfig.xml">
     <meta name="theme-color" content="#563d7c">
 
+    {{-- Custom SCSS styles --}}
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+
     @yield('meta_csrf')
 
     @yield('extra_head_scripts')

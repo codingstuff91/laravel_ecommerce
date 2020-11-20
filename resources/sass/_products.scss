@@ -1,0 +1,17 @@
+.product-category{
+    font-size: 14px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: $category_color;
+    border-radius: 10px;
+}
+
+.product_price{
+    color : grey;
+    font-size: 35px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.product_image{
+    width : 250px;
+    height : auto;
+}
